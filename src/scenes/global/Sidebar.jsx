@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import 'react-pro-sidebar/dist/css/styles.css';
+import "react-pro-sidebar/dist/css/styles.css";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
@@ -17,15 +17,63 @@ import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
-
 const Sidebar = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
 	// Collapse servira para dizer se a sidebar está ou não em collapse
-	const [isCollapsed, setIsCollapse] = useState(false);
-	const [selected]
-	return <div>Siderbar</div>;
+	const [isCollapsed, setIsCollapsed] = useState(false);
+
+	// Informa qual item/página está selecionado.
+	const [selected, setSelected] = useState("Dashboard");
+
+	return (
+		<Box
+			// Configurações de CSS para sobreescrever o CSS importado.
+			sx={{
+				"&. pro-sidebar-inner": {
+					background: `${colors.primary[400]} !important`,
+				},
+				"& .pro-icon-wrapper": {
+					backgroundColor: "transparent !important",
+				},
+				"& .pro-inner-item": {
+					padding: "5px 35px 5px 20px !important",
+				},
+				"& .pro-inner-item:hover": {
+					color: "#868dfb !important",
+				},
+				"& .pro-menu-item.active": {
+					color: "#6870fa !important",
+				},
+			}}
+		>
+			<ProSidebar collapsed={isCollapsed}>
+				<Menu iconShape="square">
+					{/* LOGO AND MENU ICON */}
+					<MenuItem
+						onClick={() => setIsCollapsed(!isCollapsed)}
+						icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+						style={{
+							margin: "10px 0 20px 0",
+							color: colors.grey[100],
+						}}
+					>
+						{!isCollapsed && (
+							<Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
+								<Typography variant="h3" color={colors.grey[100]}>
+									ADMINIS
+								</Typography>
+								<IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+									<MenuOutlinedIcon />
+								</IconButton>
+							</Box>
+						)}
+					</MenuItem>
+				</Menu>
+			</ProSidebar>
+		</Box>
+	);
 };
 
 export default Sidebar;
